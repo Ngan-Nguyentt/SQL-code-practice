@@ -1,0 +1,66 @@
+-- Scenario 1: Hospital Management System -- 
+CREATE DATABASE IF NOT EXISTS Hospital;
+USE Hospital;
+
+CREATE TABLE Patient(
+PatientID INT PRIMARY KEY,
+Name VARCHAR(100) NOT NULL,
+Age INT
+);
+
+CREATE TABLE Doctor(
+DoctorID INT PRIMARY KEY,
+Name VARCHAR(100) NOT NULL,
+Specialization VARCHAR(100)
+);
+
+CREATE TABLE Appointment(
+AppointmentID INT PRIMARY KEY,
+PatientID INT NOT NULL,
+DoctorID INT NOT NULL,
+Date DATE,
+Time TIME,
+FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
+FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID)
+);
+
+CREATE TABLE Treatment(
+TreatmentID INT NOT NULL,
+AppointmentID INT NOT NULL,
+Type VARCHAR(100),
+Cost DECIMAL(10,2),
+PRIMARY KEY (TreatmentID, AppointmentID),
+FOREIGN KEY (AppointmentID) REFERENCES Appointment(AppointmentID)
+);
+
+
+-- Scenario 2: Library Management System -- 
+CREATE DATABASE IF NOT EXISTS Library;
+USE Library;
+
+CREATE TABLE Author(
+AuthorID INT PRIMARY KEY NOT NULL,
+Name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Book(
+BookID INT PRIMARY KEY NOT NULL,
+AuthorID INT NOT NULL,
+Title VARCHAR(100) NOT NULL,
+FOREIGN KEY (AuthorID) REFERENCES Author(AuthorID)
+);
+
+CREATE TABLE Borrower(
+BorrowerID INT PRIMARY KEY NOT NULL,
+Name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Loan(
+LoanID INT NOT NULL,
+BookID INT NOT NULL,
+BorrowerID INT NOT NULL,
+BorrowDate DATE,
+PRIMARY KEY (BookID, BorrowerID),
+FOREIGN KEY (BookID) REFERENCES Book(BookID),
+FOREIGN KEY (BorrowerID) REFERENCES Borrower(BorrowerID)
+);
